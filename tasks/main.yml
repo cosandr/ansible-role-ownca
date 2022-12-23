@@ -1,0 +1,23 @@
+---
+
+- name: Set up CAs
+  ansible.builtin.include_tasks:
+    file: ca.yml
+    apply:
+      tags: ["ca"]
+  loop: "{{ ownca_ca_list }}"
+  loop_control:
+    loop_var: "ca"
+    label: "{{ ca.publickey_path | basename }}"
+  tags: ["ca"]
+
+- name: Set up certs
+  ansible.builtin.include_tasks:
+    file: cert.yml
+    apply:
+      tags: ["cert"]
+  loop: "{{ ownca_cert_list }}"
+  loop_control:
+    loop_var: "cert"
+    label: "{{ cert.publickey_path | basename }}"
+  tags: ["cert"]

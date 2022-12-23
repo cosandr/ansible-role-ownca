@@ -1,0 +1,7 @@
+---
+
+ownca_vault_password_file: ""
+ownca_ca_list: []
+ownca_cert_list: []
+
+ownca_delegate_to: "localhost"

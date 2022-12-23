@@ -1,0 +1,14 @@
+---
+
+- name: Prepare
+  hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Update cache and install requirements
+      ansible.builtin.package:
+        name:
+          - sudo
+          - python3-cryptography
+        update_cache: true
+        state: present

@@ -1,0 +1,24 @@
+---
+
+- name: Converge
+  hosts: all
+  become: false
+  vars:
+    ownca_ca_list:
+      - cn: "Example CA"
+        passphrase: "dontusemelikethis"
+        publickey_path: "/tmp/example.ca.crt"
+        privatekey_path: "/tmp/example.ca.key"
+
+    ownca_cert_list:
+      - privatekey_path: "/tmp/{{ inventory_hostname }}.key"
+        publickey_path: "/tmp/{{ inventory_hostname }}.crt"
+        passphrase: "changemetoo"
+        subject_alt_name:
+          - "DNS:example.com"
+          - "IP:10.1.2.3"
+        ca_passphrase: "{{ ownca_ca_list[0].passphrase }}"
+        ca_publickey_path: "{{ ownca_ca_list[0].publickey_path }}"
+        ca_privatekey_path: "{{ ownca_ca_list[0].privatekey_path }}"
+  roles:
+    - role: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}"
